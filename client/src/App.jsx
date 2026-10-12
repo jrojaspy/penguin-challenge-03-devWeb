@@ -1,4 +1,5 @@
 import { Link, Route, Routes } from 'react-router-dom';
+import LinksPage from './pages/LinksPage.jsx';
 
 export default function App() {
   return (
@@ -8,7 +9,7 @@ export default function App() {
       </header>
       <main className="container">
         <Routes>
-          <Route path="/" element={<p>Lista (próximo commit)</p>} />
+          <Route path="/" element={<LinksPage />} />
           <Route path="*" element={<p>Página no encontrada</p>} />
         </Routes>
       </main>
