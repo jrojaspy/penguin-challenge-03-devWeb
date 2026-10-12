@@ -1,10 +1,13 @@
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api/client.js';
 import { useAsync } from '../hooks/useAsync.js';
+import LinkForm from '../components/LinkForm.jsx';
 import LinkList from '../components/LinkList.jsx';
 import TagFilter from '../components/TagFilter.jsx';
 import Loader from '../components/Loader.jsx';
 import ErrorMessage from '../components/ErrorMessage.jsx';
+
+
 
 export default function LinksPage() {
   const [params, setParams] = useSearchParams();
@@ -24,8 +27,14 @@ export default function LinksPage() {
   const handleVoteChange = (id, { score, my_vote }) =>
     links.setData((list) => list.map((l) => (l.id === id ? { ...l, score, my_vote } : l)));
 
+  const handleCreated = () => {
+    links.reload();
+    tags.reload();
+  };
+  
   return (
     <>
+      <LinkForm onCreated={handleCreated} />
       <form className="filters" onSubmit={(e) => {
         e.preventDefault();
         setFilter('q', new FormData(e.currentTarget).get('q').trim());
@@ -42,3 +51,4 @@ export default function LinksPage() {
     </>
   );
 }
+
