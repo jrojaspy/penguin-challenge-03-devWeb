@@ -15,23 +15,17 @@ const listStmt = db.prepare(`${baseSelect}
   ORDER BY l.created_at DESC, l.id DESC`);
 
 const oneStmt = db.prepare(`${baseSelect} WHERE l.id = @id`);
-
 const tagsStmt = db.prepare(
   'SELECT t.name FROM tags t JOIN link_tags lt ON lt.tag_id = t.id WHERE lt.link_id = ? ORDER BY t.name',
 );
-
 const commentsStmt = db.prepare(
   'SELECT id, author, body, created_at FROM comments WHERE link_id = ? ORDER BY created_at ASC, id ASC',
 );
-
 const existsStmt = db.prepare('SELECT 1 FROM links WHERE id = ?');
 
 const insertLink = db.prepare('INSERT INTO links (url, title, description) VALUES (?, ?, ?)');
-
 const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name) VALUES (?)');
-
 const findTag = db.prepare('SELECT id FROM tags WHERE name = ?');
-
 const insertLinkTag = db.prepare('INSERT OR IGNORE INTO link_tags (link_id, tag_id) VALUES (?, ?)');
 
 // N+1 consultas de etiquetas: aceptable para este tamaño. Mejorable con GROUP_CONCAT.
@@ -45,6 +39,12 @@ export function listLinks({ tag = null, q = null, voterId = null } = {}) {
 
 export function linkExists(id) {
   return Boolean(existsStmt.get(id));
+}
+
+export function getLink(id, voterId = null) {
+  const row = oneStmt.get({ id, voterId });
+  if (!row) return null;
+  return { ...withTags(row), comments: commentsStmt.all(id) };
 }
 
 export const createLink = db.transaction(({ url, title, description, tags }) => {
