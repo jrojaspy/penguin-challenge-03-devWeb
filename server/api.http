@@ -1,0 +1,35 @@
+@host = http://localhost:3000/api
+@voter = voter-demo-0001
+
+### Salud
+GET {{host}}/health
+
+### Listar enlaces (con filtros opcionales)
+GET {{host}}/links?tag=react&q=docs
+X-Voter-Id: {{voter}}
+
+### Crear enlace
+POST {{host}}/links
+Content-Type: application/json
+
+{ "url": "https://vite.dev", "title": "Vite", "description": "Build tool", "tags": "build, js" }
+
+### Detalle
+GET {{host}}/links/1
+X-Voter-Id: {{voter}}
+
+### Comentar
+POST {{host}}/links/1/comments
+Content-Type: application/json
+
+{ "author": "Ana", "body": "Excelente recurso" }
+
+### Votar (1, -1 o 0 para quitar)
+POST {{host}}/links/1/votes
+Content-Type: application/json
+X-Voter-Id: {{voter}}
+
+{ "value": 1 }
+
+### Etiquetas
+GET {{host}}/tags
