@@ -1,5 +1,7 @@
 import { api } from '../api.js';
 import { escapeHtml, formatDate, hostname } from '../utils.js';
+import { voteWidget, bindVotes } from '../votes.js';
+
 
 const app = document.getElementById('app');
 const state = { links: [], tags: [], tag: '', q: '', loading: true, error: null };
@@ -66,6 +68,7 @@ function renderTags() {
 function linkCard(link) {
   return `
     <article class="card">
+      ${voteWidget(link)}
       <div class="card-body">
         <h3><a href="#/links/${link.id}">${escapeHtml(link.title)}</a></h3>
         <a class="url" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(hostname(link.url))}</a>
@@ -96,6 +99,7 @@ function bindEvents() {
   });
 
   document.getElementById('link-form').addEventListener('submit', onCreate);
+  bindVotes(document.getElementById('links'));
 }
 
 function onTagClick(e) {
