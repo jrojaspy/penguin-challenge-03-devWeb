@@ -40,7 +40,12 @@ function draw(link) {
       </div>
       <form id="comment-form" class="form">
         <label>Tu nombre <input name="author" required minlength="2" maxlength="40" /></label>
-        <label>Comentario <textarea name="body" required maxlength="500"></textarea></label>
+        <label>Comentario
+          <span x-data="{ text: '' }">
+            <textarea name="body" required maxlength="500" x-model="text"></textarea>
+            <small x-text="500 - text.length + ' caracteres restantes'"></small>
+          </span>
+        </label>
         <p id="comment-error" class="error" hidden></p>
         <button class="primary">Comentar</button>
       </form>

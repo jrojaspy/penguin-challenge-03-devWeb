@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acerca de · Organizador de Enlaces</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+      .q { width: 100%; text-align: left; padding: .75rem; border: 1px solid #e3e0f0; background: #fff; cursor: pointer; font: inherit; font-weight: 600; }
+      .a { padding: .75rem; border: 1px solid #e3e0f0; border-top: 0; }
+    </style>
+  </head>
+  <body>
+    <p><a href="/">← Volver a la aplicación</a></p>
+    <h1>Preguntas frecuentes 🐈</h1>
+
+    <div x-data="{ open: null }">
+      <template x-for="(item, i) in [
+        { q: '¿Cómo voto un enlace?', a: 'Usa las flechas ▲ ▼. Un segundo clic en la misma flecha quita tu voto.' },
+        { q: '¿Necesito una cuenta?', a: 'No. Tu navegador guarda un identificador anónimo para que solo votes una vez.' },
+        { q: '¿Qué son las etiquetas?', a: 'Palabras clave para filtrar. Se guardan en minúsculas, máximo 5 por enlace.' }
+      ]" :key="i">
+        <div>
+          <button class="q" @click="open = open === i ? null : i" :aria-expanded="open === i" x-text="item.q"></button>
+          <div class="a" x-show="open === i" x-transition x-cloak x-text="item.a"></div>
+        </div>
+      </template>
+    </div>
+
+    <h2>¿Por qué Alpine aquí y React en la app?</h2>
+    <p>Esta página es contenido estático con una sola interacción (abrir y cerrar). Alpine lo resuelve con atributos HTML, sin compilar ni cargar React.
+       La aplicación principal sí necesita React: tiene estado compartido entre vistas, listas dinámicas, rutas y formularios.</p>
+  </body>
+</html>

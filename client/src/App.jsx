@@ -8,6 +8,8 @@ export default function App() {
     <>
       <header className="site">
         <div className="container"><Link to="/">🌐 Director de Enlaces</Link></div>
+        <Link to="/">🌐 Director de Enlaces</Link>
+        <a href="/about.html">Ayuda</a>
       </header>
       <main className="container">
         <Routes>
