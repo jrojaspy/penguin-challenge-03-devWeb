@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../api/client.js';
+import { celebrate } from '../utils/celebrate.js';
 
 export default function VoteButtons({ linkId, score, myVote, onChange }) {
   const [busy, setBusy] = useState(false);
@@ -11,7 +12,9 @@ export default function VoteButtons({ linkId, score, myVote, onChange }) {
     setBusy(true);
     setError(null);
     try {
-      onChange(await api.vote(linkId, next));
+      const result = await api.vote(linkId, next);
+      onChange(result);
+      if (next === 1) celebrate({ particleCount: 30, spread: 40 });
     } catch (err) {
       setError(err.message);
     } finally {

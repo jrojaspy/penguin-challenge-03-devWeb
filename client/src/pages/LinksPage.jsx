@@ -1,13 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api/client.js';
 import { useAsync } from '../hooks/useAsync.js';
+import { celebrate } from '../utils/celebrate.js';
 import LinkForm from '../components/LinkForm.jsx';
 import LinkList from '../components/LinkList.jsx';
 import TagFilter from '../components/TagFilter.jsx';
 import Loader from '../components/Loader.jsx';
 import ErrorMessage from '../components/ErrorMessage.jsx';
-
-
 
 export default function LinksPage() {
   const [params, setParams] = useSearchParams();
@@ -30,6 +29,7 @@ export default function LinksPage() {
   const handleCreated = () => {
     links.reload();
     tags.reload();
+    celebrate();
   };
   
   return (
