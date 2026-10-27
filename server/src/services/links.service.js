@@ -24,6 +24,7 @@ const commentsStmt = db.prepare(
 const existsStmt = db.prepare('SELECT 1 FROM links WHERE id = ?');
 
 const insertLink = db.prepare('INSERT INTO links (url, title, description) VALUES (?, ?, ?)');
+const deleteStmt = db.prepare('DELETE FROM links WHERE id = ?');
 const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name) VALUES (?)');
 const findTag = db.prepare('SELECT id FROM tags WHERE name = ?');
 const insertLinkTag = db.prepare('INSERT OR IGNORE INTO link_tags (link_id, tag_id) VALUES (?, ?)');
@@ -55,3 +56,5 @@ export const createLink = db.transaction(({ url, title, description, tags }) => 
   }
   return Number(lastInsertRowid);
 });
+
+export const deleteLink = (id) => deleteStmt.run(id).changes > 0;

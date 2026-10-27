@@ -43,4 +43,5 @@ export const api = {
   getTags: () => request('/tags'),
   addComment: (id, body) => request(`/links/${id}/comments`, { method: 'POST', body: JSON.stringify(body) }),
   vote: (id, value) => request(`/links/${id}/votes`, { method: 'POST', body: JSON.stringify({ value }) }),
+  deleteLink: (id) => request(`/links/${id}`, { method: 'DELETE' }),
 };

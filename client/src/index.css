@@ -27,3 +27,6 @@ button.primary:disabled { opacity:.6; cursor:wait; }
 .loader, .empty { text-align:center; color:var(--muted); padding:1.5rem; }
 .comment { border-top:1px solid var(--border); padding:.6rem 0; }
 .comment strong { margin-right:.5rem; }
+button.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); border-radius: 8px; padding: .2rem .6rem; cursor: pointer; }
+button.danger:hover { background: var(--danger); color: #fff; }
+button.danger:disabled { opacity: .6; cursor: wait; }

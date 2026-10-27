@@ -20,3 +20,9 @@ export function create(req, res) {
   const id = service.createLink(parseLinkInput(req.body));
   res.status(201).location(`/api/links/${id}`).json(service.getLink(id, voterOf(req)));
 }
+
+export function remove(req, res) {
+  const id = parseId(req.params.id);
+  if (!service.deleteLink(id)) throw new HttpError(404, 'NOT_FOUND', 'Enlace no encontrado');
+  res.status(204).end();
+}

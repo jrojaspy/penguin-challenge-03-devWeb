@@ -32,6 +32,11 @@ export default function LinksPage() {
     celebrate();
   };
   
+  const handleDeleted = (id) => {
+    links.setData((list) => list.filter((l) => l.id !== id));
+    tags.reload(); // los conteos del filtro cambian
+  };
+
   return (
     <>
       <LinkForm onCreated={handleCreated} />
@@ -47,7 +52,7 @@ export default function LinksPage() {
 
       {links.loading && <Loader />}
       {links.error && <ErrorMessage error={links.error} onRetry={links.reload} />}
-      {links.data && !links.error && <LinkList links={links.data} onVoteChange={handleVoteChange} />}
+      {links.data && !links.error && <LinkList links={links.data} onVoteChange={handleVoteChange} onDeleted={handleDeleted}/>}
     </>
   );
 }

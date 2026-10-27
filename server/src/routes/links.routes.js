@@ -8,6 +8,7 @@ const router = Router();
 router.get('/', links.list);
 router.post('/', links.create);
 router.get('/:id', links.get);
+router.delete('/:id', links.remove);
 router.post('/:id/comments', comments.create);
 router.post('/:id/votes', votes.create);
 // (comments y votes se agregan en el commit 4)
