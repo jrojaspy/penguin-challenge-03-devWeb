@@ -13,6 +13,7 @@ export default function LinkCard({ link, onVoteChange, onDeleted }) {
         <h3><Link to={`/links/${link.id}`}>{link.title}</Link></h3>
         <a className="url" href={link.url} target="_blank" rel="noopener noreferrer">{hostname(link.url)}</a>
         {link.description && <p>{link.description}</p>}
+        <img src={link.imageUrl} alt="Descripción de la imagen" width="300" />
         <div className="tags">{link.tags.map((t) => <TagBadge key={t} name={t} />)}</div>
         <p className="meta">💬 {link.comment_count} · {formatDate(link.created_at)}</p>
         <DeleteButton linkId={link.id} title={link.title} onDeleted={() => onDeleted(link.id)} />

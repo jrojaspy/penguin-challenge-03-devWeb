@@ -14,6 +14,7 @@ export function parseLinkInput(body = {}) {
   const url = String(body.url ?? '').trim();
   const title = String(body.title ?? '').trim();
   const description = String(body.description ?? '').trim();
+  const imageUrl = String(body.imageUrl ?? '').trim();
 
   let parsed;
   try {
@@ -32,7 +33,7 @@ export function parseLinkInput(body = {}) {
     fail('Las etiquetas solo admiten letras, números y guiones (máx. 30 caracteres)');
   }
 
-  return { url: parsed.href, title, description, tags };
+  return { url: parsed.href, title, description, tags, imageUrl };
 }
 
 export function parseCommentInput(body = {}) {

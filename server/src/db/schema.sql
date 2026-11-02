@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS links (
     url TEXT NOT NULL,
     title TEXT NOT NULL,
     description TEXT NOT NULL DEFAULT '',
+    imageUrl TEXT NOT NULL DEFAULT '',
     created_at DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ', 'now'))
 );
 

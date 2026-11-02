@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { api } from '../api/client.js';
 
-const EMPTY = { url: '', title: '', description: '', tags: '' };
+const EMPTY = { url: '', title: '', description: '', tags: '', imageUrl: '' };
 
 export default function LinkForm({ onCreated }) {
   const [form, setForm] = useState(EMPTY);
@@ -40,6 +40,9 @@ export default function LinkForm({ onCreated }) {
         </label>
         <label>Etiquetas (separadas por coma)
           <input name="tags" placeholder="js, css" value={form.tags} onChange={update} />
+        </label>
+        <label>Url de la imagen
+          <input name="imageUrl" placeholder="URL" value={form.imageUrl} onChange={update} />
         </label>
         {error && <p className="error" role="alert">{error}</p>}
         <button className="primary" disabled={saving}>{saving ? 'Guardando…' : 'Guardar enlace'}</button>

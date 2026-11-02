@@ -1,7 +1,7 @@
 import { db } from '../db/index.js';
 
 const baseSelect = `
-  SELECT l.id, l.url, l.title, l.description, l.created_at,
+  SELECT l.id, l.url, l.title, l.description, imageUrl, l.created_at,
     COALESCE((SELECT SUM(v.value) FROM votes v WHERE v.link_id = l.id), 0) AS score,
     (SELECT v.value FROM votes v WHERE v.link_id = l.id AND v.voter_id = @voterId) AS my_vote,
     (SELECT COUNT(*) FROM comments c WHERE c.link_id = l.id) AS comment_count
@@ -11,7 +11,7 @@ const listStmt = db.prepare(`${baseSelect}
   WHERE (@tag IS NULL OR EXISTS (
           SELECT 1 FROM link_tags lt JOIN tags t ON t.id = lt.tag_id
           WHERE lt.link_id = l.id AND t.name = @tag))
-    AND (@like IS NULL OR l.title LIKE @like OR l.description LIKE @like)
+    AND (@like IS NULL OR l.title LIKE @like OR l.description LIKE @like OR l.imageUrl LIKE @like)
   ORDER BY l.created_at DESC, l.id DESC`);
 
 const oneStmt = db.prepare(`${baseSelect} WHERE l.id = @id`);
@@ -23,7 +23,7 @@ const commentsStmt = db.prepare(
 );
 const existsStmt = db.prepare('SELECT 1 FROM links WHERE id = ?');
 
-const insertLink = db.prepare('INSERT INTO links (url, title, description) VALUES (?, ?, ?)');
+const insertLink = db.prepare('INSERT INTO links (url, title, description, imageUrl) VALUES (?, ?, ?, ?)');
 const deleteStmt = db.prepare('DELETE FROM links WHERE id = ?');
 const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name) VALUES (?)');
 const findTag = db.prepare('SELECT id FROM tags WHERE name = ?');
@@ -48,8 +48,8 @@ export function getLink(id, voterId = null) {
   return { ...withTags(row), comments: commentsStmt.all(id) };
 }
 
-export const createLink = db.transaction(({ url, title, description, tags }) => {
-  const { lastInsertRowid } = insertLink.run(url, title, description);
+export const createLink = db.transaction(({ url, title, description, tags, imageUrl }) => {
+  const { lastInsertRowid } = insertLink.run(url, title, description, imageUrl);
   for (const name of tags) {
     insertTag.run(name);
     insertLinkTag.run(lastInsertRowid, findTag.get(name).id);

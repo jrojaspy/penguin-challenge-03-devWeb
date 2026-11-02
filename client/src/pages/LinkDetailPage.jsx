@@ -35,6 +35,7 @@ export default function LinkDetailPage() {
           <h2>{link.title}</h2>
           <a className="url" href={link.url} target="_blank" rel="noopener noreferrer">{hostname(link.url)} ↗</a>
           {link.description && <p>{link.description}</p>}
+          <img src={link.imageUrl} alt="Descripción de la imagen" width="300" />
           <div className="tags">{link.tags.map((t) => <TagBadge key={t} name={t} />)}</div>
           <p className="meta">{formatDate(link.created_at)}</p>
         </div>
